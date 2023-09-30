@@ -9,8 +9,8 @@ using namespace std;
 class Matrix
 {
 public:
-	int rows_count, columns_count;
-	vector<vector<string>> matrix;
+	int rows_count, columns_count, max_count;
+	string* matrix;
 
 	/// <summary>
 	/// Create matrix by user input
@@ -24,17 +24,17 @@ public:
 		// initialize matrix size
 		matrix.rows_count = rows_count;
 		matrix.columns_count = columns_count;
+		matrix.max_count = max(rows_count, columns_count);
+		matrix.matrix = new string[matrix.max_count * matrix.max_count];
 
 		// create matrix by user input
 		for (int i = 0; i < rows_count; i++) {
-			vector<string> row; // row of matrix
 			for (int j = 0; j < columns_count; j++) {
 				cout << "Enter value on position " << "(" << i + 1 << "; " << j + 1 << "): ";
 				string value; // value on position (i; j) in matrix
 				cin >> value;
-				row.push_back(value);
+				matrix.matrix[i * matrix.max_count + j] = value; // add value on position: maximum size of column or row + current index in column
 			}
-			matrix.matrix.push_back(row); // add filled row in matrix
 		}
 
 		return matrix;
@@ -44,21 +44,12 @@ public:
 	/// Transpose matrix
 	/// </summary>
 	void transpose_matrix() {
-		int maximum_size = max(rows_count, columns_count); // maximum size of matrix by columns and rows
-		matrix.resize(maximum_size); // resize columns by maximum value
-		for (vector<string>& row : matrix) {
-			row.resize(maximum_size); // resize rows by maximum value
-		}
-		for (int i = 0; i < maximum_size; i++) {
-			for (int j = i + 1; j < maximum_size; j++) { // j = i + 1 -> next element in column
-				swap(matrix[i][j], matrix[j][i]); // swap elements in matrix
+		for (int i = 0; i < max_count; i++) {
+			for (int j = i + 1; j < max_count; j++) { // j = i + 1 -> next element in column
+				swap(matrix[i * max_count + j], matrix[j * max_count + i]); // swap elements in matrix
 			}
 		}
-		swap(rows_count, columns_count); // swap size of matrix
-		matrix.resize(rows_count); // resize columns by count of rows 
-		for (vector<string>& row : matrix) {
-			row.resize(columns_count); // resize rows by count of columns
-		}
+		swap(rows_count, columns_count); // swap M x N size on N x M
 	}
 
 	/// <summary>
@@ -69,9 +60,9 @@ public:
 		// enumeration of all matrix elements
 		for (int i = 0; i < rows_count; i++) {
 			for (int j = 0; j < columns_count; j++) {
-				cout << matrix[i][j] << " "; // element in matrix in position (i; j)
+				cout << matrix[i * max_count + j] << " "; // element in matrix in position (i; j)
 			}
-			cout << endl;
+			cout << endl; // enter after every row
 		}
 	}
 };

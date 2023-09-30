@@ -34,7 +34,6 @@ private:
     /// <returns>Result of checking</returns>
     bool check_digits(string str) {
         for (char ch : str) {
-            int v = ch; // Convert to ASCII
             if (!isdigit(ch)) return false; // Check if symbol is digit by ASCII code
         }
         return true;
