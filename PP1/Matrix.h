@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "Validator.cpp"
 using namespace std;
 
 /// <summary>
@@ -21,6 +22,7 @@ public:
 	/// <returns>Created matrix</returns>
 	static Matrix create_matrix(int rows_count, int columns_count) {
 		Matrix matrix; // new matrix
+		Validator validator;
 
 		// initialize matrix size
 		matrix.rows_count = rows_count;
@@ -32,8 +34,12 @@ public:
 		for (int i = 0; i < rows_count; i++) {
 			for (int j = 0; j < columns_count; j++) {
 				cout << "Enter value on position " << "(" << i + 1 << "; " << j + 1 << "): ";
-				string value; // value on position (i; j) in matrix
-				cin >> value;
+				string value;
+				getline(cin, value); // value on position (i; j) in matrix
+				while (!validator.validate(value)) {
+					cout << "Wrong value! Try again: ";
+					getline(cin, value);
+				}
 				matrix.matrix[i * matrix.max_count + j] = value; // add value on position: maximum size of column or row + current index in column
 			}
 		}
