@@ -8,15 +8,16 @@ using namespace std;
 /// </summary>
 class Matrix
 {
-public:
+private:
 	int rows_count, columns_count, max_count;
 	string* matrix;
 
+public:
 	/// <summary>
 	/// Create matrix by user input
 	/// </summary>
-	/// <param name="rows_count">Count of rows</param>
-	/// <param name="columns_count">Count of columns</param>
+	/// <param name="rows_count">Numbers of rows</param>
+	/// <param name="columns_count">Numbers of columns</param>
 	/// <returns>Created matrix</returns>
 	static Matrix create_matrix(int rows_count, int columns_count) {
 		Matrix matrix; // new matrix
